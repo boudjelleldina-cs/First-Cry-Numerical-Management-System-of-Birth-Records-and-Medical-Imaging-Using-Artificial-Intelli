@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <?php
 include 'connection.php';
@@ -15,6 +16,8 @@ include 'connection.php';
 ?>
 
 <html>
+
+
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
@@ -38,14 +41,17 @@ include 'connection.php';
 	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	
+	
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+	
+	<!-- statistic CSS -->
+        
+		<link rel="stylesheet" href="vendors/styles/statistic.css">
+	
+	
+	
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-	
-	
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
@@ -53,14 +59,66 @@ include 'connection.php';
 
 		gtag('config', 'UA-119386393-1');
 	</script>
-</head>
-<body>
 	
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	
+</head>
+
+<body>
+	<div class="pre-loader">
+		<div class="pre-loader-box">
+			<div class="loader-logo"><img src="vendors/images/logo.png" alt="" width="300" height="300"></div>
+			<div class='loader-progress' id="progress_div">
+				<div class='bar' id='bar1'></div>
+			</div>
+			<div class='percent' id='percent1'>0%</div>
+			<div class="loading-text">
+				Loading...
+			</div>
+		</div>
+	</div>
 
 	<div class="header">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
-		
+		<!--	<div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div> -->
+		<!--	<div class="header-search">
+				<form>
+					<div class="form-group mb-0">
+						<i class="dw dw-search2 search-icon"></i>
+						<input type="text" class="form-control search-input" placeholder="Search Here">
+						<div class="dropdown">
+							<a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
+								<i class="ion-arrow-down-c"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div class="form-group row">
+									<label class="col-sm-12 col-md-2 col-form-label">From</label>
+									<div class="col-sm-12 col-md-10">
+										<input class="form-control form-control-sm form-control-line" type="text">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-12 col-md-2 col-form-label">To</label>
+									<div class="col-sm-12 col-md-10">
+										<input class="form-control form-control-sm form-control-line" type="text">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-12 col-md-2 col-form-label">Subject</label>
+									<div class="col-sm-12 col-md-10">
+										<input class="form-control form-control-sm form-control-line" type="text">
+									</div>
+								</div>
+								<div class="text-right">
+									<button class="btn btn-primary">Search</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>  -->
 		</div>
 		
 		<div class="header-right">
@@ -76,12 +134,12 @@ include 'connection.php';
 			</div>
 			
 			
-	<div class="user-notification">
+			<div class="user-notification">
 			<!-- STATUS (PULSE) -->
     <div style="
         position:absolute;
         top:20px;
-        right:10px;
+        right:220px;
         display:flex;
         align-items:center;
         gap:6px;
@@ -109,9 +167,63 @@ include 'connection.php';
             Actif
         </span>
     </div>
-			
+			<!--
+				<div class="dropdown">
+					<a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
+						<i class="icon-copy dw dw-notification"></i>
+						<span class="badge notification-active"></span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<div class="notification-list mx-h-350 customscroll">
+							<ul>
+								<li>
+									<a href="#">
+										<img src="vendors/images/img.jpg" alt="">
+										<h3>John Doe</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="vendors/images/photo1.jpg" alt="">
+										<h3>Lea R. Frith</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="vendors/images/photo2.jpg" alt="">
+										<h3>Erik L. Richards</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="vendors/images/photo3.jpg" alt="">
+										<h3>John Doe</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="vendors/images/photo4.jpg" alt="">
+										<h3>Renee I. Hansen</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="vendors/images/img.jpg" alt="">
+										<h3>Vicki M. Coleman</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed...</p>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				-->
 			</div>
-			
 			
 			<div class="user-info-dropdown">
 				<div class="dropdown">
@@ -129,53 +241,12 @@ include 'connection.php';
 					</div>
 				</div>
 			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			<div class="user-info-dropdown">
-				<div class="dropdown">
-					
-				</div>
-			</div>
-			
-			
 			<!--<div class="github-link">
 				<a href="#" target="_blank"><img src="vendors/images/logo.png" alt="" width="50" height="50"></a>
 			</div>-->
 		</div>
 	</div>
+	
 	
 	
 	<div class="right-sidebar">
@@ -206,7 +277,7 @@ include 'connection.php';
 							<span class="micon icon-copy fi-torsos-female-male"></span><span class="mtext">Patient</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="index.html">Inscription</a></li>
+							<li><a href="Patient_Ajout.php">Inscription</a></li>
 							<li><a href="index2.html">Dossier</a></li>
 							<li><a href="index2.html">Admission</a></li>
 							<li><a href="index2.html">Sortie</a></li>
@@ -219,7 +290,7 @@ include 'connection.php';
 							<span class="micon fa fa-user-md"></span><span class="mtext">Medecin</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="index.html">Inscription</a></li>
+							<li><a href="Medecin_Ajout.php">Inscription</a></li>
 							<li><a href="index2.html">Dossier</a></li>
 						</ul>
 					</li>
@@ -259,6 +330,12 @@ include 'connection.php';
 							<li><a href="index2.html">Dossier</a></li>
 						</ul>
 					</li>
+					<li class="dropdown">
+						<a href="logout.php" class="dropdown-toggle">
+							<span class="micon fa fa-sign-out"></span><span class="mtext">Deconnexion</span>
+						</a>
+						
+					</li>
 					
 				</ul>
 			</div>
@@ -293,7 +370,7 @@ include 'connection.php';
         margin-bottom:12px;
     ">
 
-        <div style="
+     <!--   <div style="
             width:38px;
             height:38px;
             background:linear-gradient(135deg,#1E63EE,#3b82f6);
@@ -303,8 +380,9 @@ include 'connection.php';
             justify-content:center;
             box-shadow:0 6px 14px rgba(30,99,238,0.25);
         ">
-            <i class="icon-copy fa fa-user-md" style="color:white; font-size:20px;"></i>
-        </div>
+             <i class="icon-copy fa fa-user-md" style="color:white; font-size:20px;"></i> 
+		</div> -->	 
+         
 
         <h2 style="
             margin:6px 0 0 0;
@@ -312,7 +390,7 @@ include 'connection.php';
             font-size:1.92rem;
             color:#0f172a;
         ">
-            Gestion dossier admission
+            Administration
         </h2>
 
     </div>
@@ -322,71 +400,6 @@ include 'connection.php';
 </div>
 
 </div>
-
-<div class="col-md-10">
-            <div class="row g-4">
-                <!-- Revenue Card -->
-                <div class="col-md-3">
-                    <div class="stat-card p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="stat-icon bg-success bg-opacity-10">
-                                <i class="fas fa-user-tie text-primary fs-4"></i>
-                            </div>
-                           
-                        </div>
-                        <h5 class="mb-1 text-primary">Total</h5>
-                        <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent");
-										$tot = mysqli_fetch_assoc($res);
-										echo $tot['total'];										
-										?>				
-						</h3>
-                        
-                    </div>
-                </div>
-                <!-- Users Card -->
-                <div class="col-md-3">
-                    <div class="stat-card2 p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="stat-icon bg-primary bg-opacity-10">
-                                <i class="fas fa-user-tie text-success fs-4"></i>
-                            </div>
-                            
-                        </div>
-                        <h5 class="mb-1 text-success">Admis</h5>
-                        <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent WHERE statut='Actif'");
-										$tot = mysqli_fetch_assoc($res);
-										echo $tot['total'];										
-										?>				
-						</h3>
-                        
-                    </div>
-                </div>
-				
-                <!-- Orders Card -->
-                <div class="col-md-3">
-                    <div class="stat-card3 p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="stat-icon bg-warning bg-opacity-10">
-                                <i class="fas fa-user-tie text-danger fs-4"></i>
-                            </div>
-                            
-                        </div>
-                        <h5 class="mb-1 text-danger">Sortie</h5>
-                        <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent WHERE statut='Inactif'");
-										$tot = mysqli_fetch_assoc($res);
-										echo $tot['total'];										
-										?>				
-						</h3>
-                        
-                    </div>
-                </div>
-				
-            </div>
-        </div>
-
 
 <style>
 @keyframes pulse {
@@ -411,171 +424,208 @@ include 'connection.php';
 </style>
 
 <div class="row">
+<div class="main-container">
 
-    <!-- LEFT CARD (Identification) -->
-    <div class="col-md-12 mb-3">
+<div class="row justify-content-center">
 
-       <div style="
-			border:1px solid #ccc; 
-			border-radius:10px; 
-			padding:16px; 
-			background:#f9f9f9;
-			box-shadow:0 6px 18px rgba(0,0,0,0.1);
-			margin-bottom:20px;
-			transition: all 0.25s ease;"
-			onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 25px rgba(0,0,0,0.15)'"
-			onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.1)'"
-		>
+        <div class="col-md-10">
+            <div class="row g-4">
+                <!-- Revenue Card -->
+                <div class="col-md-3">
+                    <div class="stat-card p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="stat-icon bg-success bg-opacity-10">
+                                <i class="fas fa-bed text-success fs-4"></i>
+                            </div>
+                            <span class="badge bg-success"></span>
+                        </div>
+                        <h5 class="mb-1">Nbr des patients</h5>
+                        <h3 class="mb-3">325</h3>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 32.5%"></div>
+                        </div>
+                        <small class="text-muted">Mois de Juin: 40</small>
+                    </div>
+                </div>
+                <!-- Users Card -->
+                <div class="col-md-3">
+                    <div class="stat-card2 p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="stat-icon bg-primary bg-opacity-10">
+                                <i class="fas fa-user-md text-primary fs-4"></i>
+                            </div>
+                            <span class="badge bg-success">+8.2%</span>
+                        </div>
+                        <h5 class="mb-1">Nbr des medecins</h5>
+                        <h3 class="mb-3">1249</h3>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
+                        </div>
+                        <small class="text-muted">Monthly active users growth</small>
+                    </div>
+                </div>
+                <!-- Orders Card -->
+                <div class="col-md-3">
+                    <div class="stat-card3 p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="stat-icon bg-warning bg-opacity-10">
+                                <i class="fas fa-user-tie text-warning fs-4"></i>
+                            </div>
+                            <span class="badge bg-success">+15.7%</span>
+                        </div>
+                        <h5 class="mb-1">Nbr des agents</h5>
+                        <h3 class="mb-3">1,483</h3>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 85%"></div>
+                        </div>
+                        <small class="text-muted">Monthly order completion rate</small>
+                    </div>
+                </div>
+				<!-- Revenue Card -->
+                <div class="col-md-3">
+                    <div class="stat-card p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="stat-icon bg-primary bg-opacity-10">
+                                <i class="fas fa-chart-line text-primary fs-4"></i>
+                            </div>
+                            <span class="badge bg-success"></span>
+                        </div>
+                        <h5 class="mb-1">Nbr des patients</h5>
+                        <h3 class="mb-3">325</h3>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 32.5%"></div>
+                        </div>
+                        <small class="text-muted">Mois de Juin: 40</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>	
 
-           <div class="p-12 md:p-8" style="padding:0;">
-				<div style="
-							background:#1C0804;
-							color:white;
-							padding:12px 15px;
-							font-weight:700;
-							font-size:1.2rem;
-							margin: -20px -18px 15px -18px;
-							border-radius:10px 10px 0 0;
-							">
-				Liste des admissions
-				<a href="Medecin_Menu.php" style="background:#D42424;color:white;font-weight:700;
-										padding:5px 14px;border-radius:6px;text-decoration:none;font-size:0.9rem;">
-										<i class="fa-solid fa-backward"></i> Retour
-									</a>
-									
-				</div>
-                    
 
-             <div class="form-group">
-				<table id="myTable" class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th><div class="custom-label-box">ID</div></th>
-                <th><div class="custom-label-box">Nom</div></th>
-                <th><div class="custom-label-box">Prénom</div></th>
-				<th><div class="custom-label-box">Nom à la naissance</div></th>
-                <th><div class="custom-label-box">Date de naissance</div></th>
-				<th><div class="custom-label-box">Service</div></th>
-				<th><div class="custom-label-box">Chambre</div></th>
-				<th><div class="custom-label-box">Date entree</div></th>
-				<th><div class="custom-label-box">Medecin traitant</div></th>
-				<th><div class="custom-label-box">Status</div></th>
-				<th><div class="custom-label-box">Date de sortie</div></th>
-				
-                <th class="text-center"><div class="custom-label-box">Action</div></th>
-            </tr>
-        </thead>
+	
 
-        <tbody>
+<div class="pd-ltr-20 xs-pd-20-10">
 
-        <?php
-        $res = mysqli_query($link, "SELECT * FROM admission");
-
-        while ($row = mysqli_fetch_assoc($res)) {
-        ?>
-
-        <tr>
-            <td><?php echo $row['id_admis']; ?></td>
-			
-			<?php
-					$id_p=$row['id_p'];
-					$res1 = mysqli_query($link, "SELECT * FROM patient WHERE `id_patient` = '$id_p'");
-
-					while ($row1 = mysqli_fetch_assoc($res1)) {
-			?>
-            <td><?php echo $row1['nom_p']; ?></td>
-            <td><?php echo $row1['prenom_p']; ?></td>
-			<td><?php echo $row1['nom_p_nais']; ?></td>
-			<td><?php echo $row1['date_nais_p']; ?></td>
-			<?php } ?>
-			
-			<td><?php echo $row['service']; ?></td>
-			
-			<?php
-					$id_lit=$row['id_lit'];
-					$res2 = mysqli_query($link, "SELECT * FROM lit WHERE `id` = '$id_lit'");
-
-					while ($row2 = mysqli_fetch_assoc($res2)) {
-			?>			
-			
-			<td><?php echo $row2['chambre_id'].' '. $row2['numero_lit']; ?></td>
-			<?php } ?>
-			
-			<td><?php echo $row['date_entre']; ?></td>
-			
-			<?php
-					$id_med=$row['id_med'];
-					$res3 = mysqli_query($link, "SELECT * FROM medecin WHERE `id_med` = '$id_med'");
-
-					while ($row3 = mysqli_fetch_assoc($res3)) {
-			?>			
-			
-			<td><?php echo $row3['nom_med'].' '. $row3['prenom_med']; ?></td>
-			<?php } ?>
-			
-			<td>
-			<?php 
-			if ($row['admis']=="Entree")
-			{
-			echo "<span class=\"badge badge-success\"> ".$row['admis']." </span>"; 
-			}
-			else {
-			echo "<span class=\"badge badge-danger\">". $row['admis']." </span>"; 
-			}
-			?>
-			</td>
-			<td><?php echo $row['date_sorti']; ?></td>
-			
-			
-			
-			
-			<td>
-				<div class="text-center" class="dropdown">
-					<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-						<i class="dw dw-more"></i>
-					</a>
-				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list" style="background-color: #C7EFF2;">
-				
-					<?php 
-						if ($row['admis']=="Entree")
-						{
-							echo "<a class=\"dropdown-item\" href=\"Nee_Ajout.php?id=". $row['id_p']."\"><i class=\"fas fa-baby\"></i>Nouveau né(e)</a>";
-							echo "<a class=\"dropdown-item\" href=\"patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-book\"></i>Historique</a>";	
-							echo "<a class=\"dropdown-item\" href=\"patient_rapport_ajout.php?id=". $row['id_p']."\"><i class=\"fa fa-pencil-square-o\"></i>Rapport</a>";
-														
-							echo "<a class=\"dropdown-item\" href=\"patient_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-briefcase\"></i>Grossesse & Travail</a>";
-														 
-							echo "<a class=\"dropdown-item\" href=\"PDF_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Grossesse & Travail</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_Admission.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Admission</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>Historique</a>";							
-							echo "<a class=\"dropdown-item\" href=\"patient_analyse_ajout.php?id=". $row['id_p']."\"><i class=\"fa fa-flask\"></i>Analyses</a>"; 
+			<div class="min-height-200px">
+				<div class="container pd-0">		
+	<div class="col-md-12 mb-3">					
+       			<div class="contact-directory-list">						
+						<ul class="row">
+							<li class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+								<div class="contact-directory-box">
+									<div class="contact-dire-info text-center">
+										<div class="contact-avatar">
+											<span>
+												<img src="vendors/images/Agent1.jpg" alt="">
+											</span>
+										</div>
+										<div class="contact-name">
+											<h4><span class="badge badge-pill badge-primary">Agent</span></h4>
+											
+											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
+										</div>
+										
+										
+									</div>
+									<div class="view-contact">
+										<a href="agent_table.php">Détails</a>
+									</div>
+								</div>
+							</li>
+							<li class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+								<div class="contact-directory-box">
+									<div class="contact-dire-info text-center">
+										<div class="contact-avatar">
+											<span>
+												<img src="vendors/images/infermier1.jpg" alt="">
+											</span>
+										</div>
+										<div class="contact-name">
+											<h4><span class="badge badge-pill badge-primary">Infermier</span></h4>
+											
+											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
+										</div>
+										
+										
+									</div>
+									<div class="view-contact">
+										<a href="Infirmier_Table.php">Détails</a>
+									</div>
+								</div>
+							</li>
+							<li class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+								<div class="contact-directory-box">
+									<div class="contact-dire-info text-center">
+										<div class="contact-avatar">
+											<span>
+												<img src="vendors/images/medecin2.jpg" alt="">
+											</span>
+										</div>
+										<div class="contact-name">
+											<h4><span class="badge badge-pill badge-primary">Medecin</span></h4>
+											
+											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
+										</div>
+										
+										
+									</div>
+									<div class="view-contact">
+										<a href="Medecin_Table.php">Détails</a>
+									</div>
+								</div>
+							</li>
+							<li class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+								<div class="contact-directory-box">
+									<div class="contact-dire-info text-center">
+										<div class="contact-avatar">
+											<span>
+												<img src="vendors/images/patient1.jpg" alt="">
+											</span>
+										</div>
+										<div class="contact-name">
+											<h4><span class="badge badge-pill badge-primary">Patient</span></h4>
+											
+											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
+										</div>
+										
+										
+									</div>
+									<div class="view-contact">
+										<a href="Patient_Menu.php">Détails</a>
+									</div>
+								</div>
+							</li>
+							<li class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+								<div class="contact-directory-box">
+									<div class="contact-dire-info text-center">
+										<div class="contact-avatar">
+											<span>
+												<img src="vendors/images/hopital3.jpg" alt="">
+											</span>
+										</div>
+										<div class="contact-name">
+											<h4><span class="badge badge-pill badge-primary">Hopital</span></h4>
+											
+											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
+										</div>
+										
+										
+									</div>
+									<div class="view-contact">
+										<a href="#">Détails</a>
+									</div>
+								</div>
+							</li>
 							
-						} else
-						{
-							
-							echo "<a class=\"dropdown-item\" href=\"patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-book\"></i>Historique</a>";
-							echo "<a class=\"dropdown-item\" href=\"PDF_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Grossesse & Travail</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_Admission.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Admission</a>";  
-							echo "<a class=\"dropdown-item\" href=\"PDF_patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Historique</a>";
-							echo "<a class=\"dropdown-item\" href=\"PDF_Sorti.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Sortie</a>"; 
-							
-						}
-					?>
+						</ul>
+					</div>
 					
-				</div>
-				</div>
-			</td>
-			
-        </tr>
 
-        <?php } ?>
-   
-
-    </div>
-  </div>
-</div>
-        </tbody>
-    </table>
+					
+                    
+                            					
+					
 									
               </div>
 			  
@@ -590,6 +640,13 @@ include 'connection.php';
             </div>
         </div>
     </div>
+	
+				</div>
+			</div>
+			
+		</div>
+	</div>	
+	
 
 </div>    
 				
@@ -698,5 +755,24 @@ function saveForm() {
             }
 			
      </script>
+	 
+	 <!-- js -->
+	<script src="vendors/scripts/core.js"></script>
+	<script src="vendors/scripts/script.min.js"></script>
+	<script src="vendors/scripts/process.js"></script>
+	<script src="vendors/scripts/layout-settings.js"></script>
+	
+	
+	
+	<script src="src/plugins/jQuery-Knob-master/jquery.knob.min.js"></script>
+	<script src="src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+	<script src="src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+	<script src="src/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+	<script src="src/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+	<script src="vendors/scripts/dashboard2.js"></script>
+	
+	
+	
+	
 </body>
 </html>

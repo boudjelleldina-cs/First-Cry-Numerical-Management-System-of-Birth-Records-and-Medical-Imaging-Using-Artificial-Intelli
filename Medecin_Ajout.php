@@ -13,9 +13,18 @@ include 'connection.php';
 if (isset($_POST["submit"])) {
 	    $nom_p = $_POST["nom_p"];
         $prenom_p = $_POST["prenom_p"];
-	    $sexe = $_POST["sexe"];
-	    
-		$datedenaissance = $_POST["datedenaissance"];
+	    $datedenaissance = $_POST["datedenaissance"];
+		
+		$res = mysqli_query($link, "SELECT * FROM medecin WHERE nom_med='$nom_p' AND prenom_med='$prenom_p' AND date_nais_med='$datedenaissance' LIMIT 1");
+		$tot = mysqli_fetch_assoc($res);
+		if ($tot >=1)
+		{
+			$message_erreur = "cette personne existe déjà !";
+        }
+		else
+		{
+			
+		$sexe = $_POST["sexe"];
 		$wilaya = $_POST["wilaya"];
 		$nom_p_ar = $_POST["nom_p_ar"];
         $prenom_p_ar = $_POST["prenom_p_ar"];
@@ -30,6 +39,9 @@ if (isset($_POST["submit"])) {
    
 	if (isset($_FILES['file'])) {
                  
+				 
+				 
+				 
 					$gener = uniqid();					
 					$image_base64 = addslashes(file_get_contents($_FILES['file']['tmp_name']));	
 		
@@ -40,7 +52,8 @@ if (isset($_POST["submit"])) {
 		
 		echo '<script>alert("Enregistrement");</script>';
         
-		header('location:Medecin_Table.php');	
+		header('location:Medecin_Table.php');
+	}		
 	}	
 }
 #$link->close();
@@ -81,18 +94,7 @@ if (isset($_POST["submit"])) {
 	</script>
 </head>
 <body>
-	<div class="pre-loader">
-		<div class="pre-loader-box">
-			<div class="loader-logo"><img src="vendors/images/logo.png" alt="" width="300" height="300"></div>
-			<div class='loader-progress' id="progress_div">
-				<div class='bar' id='bar1'></div>
-			</div>
-			<div class='percent' id='percent1'>0%</div>
-			<div class="loading-text">
-				Loading...
-			</div>
-		</div>
-	</div>
+	
 
 	<div class="header">
 		<div class="header-left">
@@ -631,6 +633,12 @@ if (isset($_POST["submit"])) {
                                             };
                                         };
                                         ?>
+					<?php if (isset($message_erreur)): ?>
+							<div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; padding: 12px; margin-bottom: 20px; border-radius: 6px; font-weight: bold;">
+								<i class="fa fa-exclamation-triangle"></i> <?php echo $message_erreur; ?>
+							</div>
+						<?php endif; ?>
+
 <div class="row">
 
     <!-- LEFT CARD (Identification) -->
@@ -658,7 +666,7 @@ if (isset($_POST["submit"])) {
 							margin: -20px -18px 15px -18px;
 							border-radius:10px 10px 0 0;
 							">
-				Identification du Patient
+				Identification du Medecin
 				</div>
                     
 
@@ -666,12 +674,12 @@ if (isset($_POST["submit"])) {
 				<div style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">   
 				Nom    
 				</div>
-				<input type="text" id="nom_p" name="nom_p" class="form-control" placeholder="Entrer le Nom du medecin">
+				<input type="text" id="nom_p" name="nom_p" class="form-control" placeholder="Entrer le Nom du medecin" required>
 				
 				<div style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">   
 				Prénom   
 				</div>
-				<input type="text" id="prenom_p" name="prenom_p" class="form-control" placeholder="Entrer le Prénom du medecin">
+				<input type="text" id="prenom_p" name="prenom_p" class="form-control" placeholder="Entrer le Prénom du medecin" required>
 									
               </div>
 			  
@@ -719,7 +727,7 @@ if (isset($_POST["submit"])) {
 						<div style="    background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;"> 
 						Date de naissance
                         </div>
-                        <input type="date" id="datedenaissance" name="datedenaissance" class="form-control">
+                        <input type="date" id="datedenaissance" name="datedenaissance" class="form-control" required>
 						
 						
                        </div>
@@ -731,7 +739,7 @@ if (isset($_POST["submit"])) {
 							Wilaya	
                             </div>
 
-                            <select class="custom-select2 form-control" id ="wilaya" name="wilaya" style="width: 100%; height: 38px;">
+                            <select class="custom-select2 form-control" id ="wilaya" name="wilaya" style="width: 100%; height: 38px;" required>
                                 <option value="" selected disabled hidden>Choisir une wilaya</option>
 								<?php
 									
@@ -785,19 +793,19 @@ if (isset($_POST["submit"])) {
 					border-radius:10px 10px 0 0;
 					"
 		>
-               Identification du Patient (Arabe)
+               Identification du Medecin (Arabe)
         </div>
 
             <div class="form-group">
 				<div align="right" style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">   
 				اللقب    
 				</div>
-				<input type="text" style="text-align: right;" id="nom_p_ar" name="nom_p_ar" class="form-control" placeholder="اللقب">
+				<input type="text" style="text-align: right;" id="nom_p_ar" name="nom_p_ar" class="form-control" placeholder="اللقب" required>
 				
 				<div align="right" style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">   
 				الاسم   
 				</div>
-				<input type="text" style="text-align: right;" id="prenom_p_ar" name="prenom_p_ar" class="form-control" placeholder="الاسم">
+				<input type="text" style="text-align: right;" id="prenom_p_ar" name="prenom_p_ar" class="form-control" placeholder="الاسم" required>
 				
 				<div class="row">
 
@@ -806,7 +814,7 @@ if (isset($_POST["submit"])) {
 						<div style="    background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;"> 
 						Specialite
                         </div>
-                        <select class="custom-select2 form-control" id ="specialite" name="specialite" style="width: 100%; height: 38px;">
+                        <select class="custom-select2 form-control" id ="specialite" name="specialite" style="width: 100%; height: 38px;" required>
                                 <option value="" selected disabled hidden>Choisir une Specialite</option>
 								<?php
 									
@@ -832,7 +840,7 @@ if (isset($_POST["submit"])) {
 							Grade	
                             </div>
 
-                            <select class="custom-select2 form-control" id ="grade_med" name="grade_med" style="width: 100%; height: 38px;">
+                            <select class="custom-select2 form-control" id ="grade_med" name="grade_med" style="width: 100%; height: 38px;" required>
                                 <option value="" selected disabled hidden>Choisir un grade</option>
 								<?php
 									
@@ -858,7 +866,7 @@ if (isset($_POST["submit"])) {
 							<div style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">                            
 							Service affecté 
 							</div>
-							<select class="custom-select2 form-control" id ="service" name="service" style="width: 100%; height: 38px;">
+							<select class="custom-select2 form-control" id ="service" name="service" style="width: 100%; height: 38px;" required>
                                 <option value="" selected disabled hidden>Choisir un service</option>
                                 <?php
 									
@@ -881,7 +889,7 @@ if (isset($_POST["submit"])) {
 						</div>
 						
 						<div class="custom-file">
-							<input type="file" class="custom-file-input" id="file" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+							<input type="file" class="custom-file-input" id="file" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" required>
 							<label class="custom-file-label">Photo d'identité</label>
 						</div>
 					</div>
@@ -929,7 +937,7 @@ if (isset($_POST["submit"])) {
 				Adresse
                 </div>
                 <input type="text" id="adresse" name="adresse" class="form-control" 
-                       placeholder="Ex: 12 Rue des Fleurs, Alger">
+                       placeholder="Ex: 12 Rue des Fleurs, Alger" required>
 			</div>
 
             <div class="row">
@@ -939,7 +947,7 @@ if (isset($_POST["submit"])) {
 					<div style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">                            
 					Lieu de Residance 
                     </div>
-                      <select class="custom-select2 form-control" id ="wilaya_resid" name="wilaya_resid" style="width: 100%; height: 38px;">
+                      <select class="custom-select2 form-control" id ="wilaya_resid" name="wilaya_resid" style="width: 100%; height: 38px;" required>
                                 <option value="" selected disabled hidden>Choisir une wilaya</option>
                                 <?php
 									
@@ -1002,7 +1010,7 @@ if (isset($_POST["submit"])) {
                         </div>
                         <!--<select class="selectpicker form-control" id="nom_medc" name="nom_medc"
                                 data-style="btn-outline-primary" data-size="8"> -->
-						<input type="text" id="email" name="email" class="form-control" placeholder="Entrez l'email">		
+						<input type="text" id="email" name="email" class="form-control" placeholder="Entrez l'email" required>		
                     </div>
                 </div>
 
@@ -1011,7 +1019,7 @@ if (isset($_POST["submit"])) {
 						<div style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">
 						N° de téléphone 
                         </div>
-                        <input type="text" id="tel" name="tel" class="form-control" placeholder="Entrez le N° assurance maladie">
+                        <input type="text" id="tel" name="tel" class="form-control" placeholder="Entrez le N° assurance maladie" required>
                     </div>
                 </div>
 				<div class="col-md-6">
@@ -1019,7 +1027,7 @@ if (isset($_POST["submit"])) {
 						<div style="background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">
 						Mot de passe 
                         </div>
-                        <input type="password" id="pass" name="pass" class="form-control" placeholder="Entrez votre mot de passe">
+                        <input type="password" id="pass" name="pass" class="form-control" placeholder="Entrez votre mot de passe" required>
                     </div>
                 </div>
 

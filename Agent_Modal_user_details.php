@@ -33,7 +33,7 @@ mysqli_set_charset($link, "utf8mb4");
 $userId = $_POST['id'];
 
 // 5. Exécution de la requête SQL (Correction de l'orthographe : id_agent)
-$result = mysqli_query($link, "SELECT * FROM agent WHERE id_agent=$userId");
+$result = mysqli_query($link, "SELECT * FROM agent WHERE id_agent=$userId LIMIT 1" );
 //$result = mysqli_query($link, $sql);
 
 //if ($result) 

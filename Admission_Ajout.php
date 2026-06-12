@@ -6,10 +6,33 @@ if (!isset($_SESSION['log_u'])) {
     header('location:loginpage.php');
     die;
 }
-
 include 'connection.php';
 
 
+if (isset($_POST["submit"])) {
+	    $id_p = $_POST["id_patient"];
+        $id_med = $_POST["id_med"];
+		$id_lit = $_POST["id_lit"];
+		$service = $_POST["service"];
+		$staut_chambre = 'Occupe';
+		
+	
+		
+		$insert = "INSERT INTO  `admission`(`id_p`, `id_med`, `id_lit`, `service`)
+		
+		VALUES ('$id_p','$id_med','$id_lit', '$service')";
+		$qry = mysqli_query($link, $insert) or die(mysqli_error($link));
+		
+		$updateType_abn = "UPDATE lit SET `statut`= '$staut_chambre' WHERE `id` = '$id_lit'";
+
+		
+		$response1 = mysqli_query($link, $updateType_abn) or die(mysqli_error($link));
+		
+		echo '<script>alert("Enregistrement");</script>';
+        
+		header('location:Admission_Table_Agent.php');	
+		
+}
 #$link->close();
 
 ?>
@@ -37,15 +60,8 @@ include 'connection.php';
 	<link rel="stylesheet" type="text/css" href="src/plugins/datatables/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-	
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-	
-	
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
@@ -66,22 +82,16 @@ include 'connection.php';
 		<div class="header-right">
 			
 			<div class="dashboard-setting user-notification">
-			<!--
-				<div class="dropdown">
-					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
-						<i class="dw dw-settings2"></i>
-					</a>
-				</div>
-			-->
+			
 			</div>
 			
 			
-	<div class="user-notification">
+			<div class="user-notification">
 			<!-- STATUS (PULSE) -->
     <div style="
         position:absolute;
         top:20px;
-        right:10px;
+        right:220px;
         display:flex;
         align-items:center;
         gap:6px;
@@ -111,7 +121,6 @@ include 'connection.php';
     </div>
 			
 			</div>
-			
 			
 			<div class="user-info-dropdown">
 				<div class="dropdown">
@@ -169,8 +178,6 @@ include 'connection.php';
 					
 				</div>
 			</div>
-			
-			
 			<!--<div class="github-link">
 				<a href="#" target="_blank"><img src="vendors/images/logo.png" alt="" width="50" height="50"></a>
 			</div>-->
@@ -303,7 +310,7 @@ include 'connection.php';
             justify-content:center;
             box-shadow:0 6px 14px rgba(30,99,238,0.25);
         ">
-            <i class="icon-copy fa fa-user-md" style="color:white; font-size:20px;"></i>
+            <i class="icon-copy fi-torsos-female-male" style="color:white; font-size:20px;"></i>
         </div>
 
         <h2 style="
@@ -312,7 +319,7 @@ include 'connection.php';
             font-size:1.92rem;
             color:#0f172a;
         ">
-            Gestion dossier admission
+            Admission de patient
         </h2>
 
     </div>
@@ -323,71 +330,6 @@ include 'connection.php';
 
 </div>
 
-<div class="col-md-10">
-            <div class="row g-4">
-                <!-- Revenue Card -->
-                <div class="col-md-3">
-                    <div class="stat-card p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="stat-icon bg-success bg-opacity-10">
-                                <i class="fas fa-user-tie text-primary fs-4"></i>
-                            </div>
-                           
-                        </div>
-                        <h5 class="mb-1 text-primary">Total</h5>
-                        <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent");
-										$tot = mysqli_fetch_assoc($res);
-										echo $tot['total'];										
-										?>				
-						</h3>
-                        
-                    </div>
-                </div>
-                <!-- Users Card -->
-                <div class="col-md-3">
-                    <div class="stat-card2 p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="stat-icon bg-primary bg-opacity-10">
-                                <i class="fas fa-user-tie text-success fs-4"></i>
-                            </div>
-                            
-                        </div>
-                        <h5 class="mb-1 text-success">Admis</h5>
-                        <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent WHERE statut='Actif'");
-										$tot = mysqli_fetch_assoc($res);
-										echo $tot['total'];										
-										?>				
-						</h3>
-                        
-                    </div>
-                </div>
-				
-                <!-- Orders Card -->
-                <div class="col-md-3">
-                    <div class="stat-card3 p-2">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="stat-icon bg-warning bg-opacity-10">
-                                <i class="fas fa-user-tie text-danger fs-4"></i>
-                            </div>
-                            
-                        </div>
-                        <h5 class="mb-1 text-danger">Sortie</h5>
-                        <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent WHERE statut='Inactif'");
-										$tot = mysqli_fetch_assoc($res);
-										echo $tot['total'];										
-										?>				
-						</h3>
-                        
-                    </div>
-                </div>
-				
-            </div>
-        </div>
-
-
 <style>
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
@@ -395,208 +337,193 @@ include 'connection.php';
     100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
 }
 </style>
-<style>
-.red-circle {
-  width: 15px;
-  height: 15px;
-  background-color: red; /* Or use HEX: #FF0000 */
-  border-radius: 50%;
-}
-.green-circle {
-  width: 15px;
-  height: 15px;
-  background-color: green; /* Or use HEX: #FF0000 */
-  border-radius: 50%;
-}
-</style>
-
+<form id="register" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" class="validation-wizard wizard-circle mt-2">
+                                        <?php
+                                        if (isset($error)) {
+                                            foreach ($error as $e) {
+                                                echo '<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">';
+                                                echo '<span class="font-medium">' . $e . '</span>';
+                                                echo '</div>';
+                                            };
+                                        };
+                                        ?>
 <div class="row">
 
-    <!-- LEFT CARD (Identification) -->
-    <div class="col-md-12 mb-3">
-
-       <div style="
-			border:1px solid #ccc; 
-			border-radius:10px; 
-			padding:16px; 
-			background:#f9f9f9;
-			box-shadow:0 6px 18px rgba(0,0,0,0.1);
-			margin-bottom:20px;
-			transition: all 0.25s ease;"
-			onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 25px rgba(0,0,0,0.15)'"
-			onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.1)'"
-		>
-
-           <div class="p-12 md:p-8" style="padding:0;">
-				<div style="
-							background:#1C0804;
-							color:white;
-							padding:12px 15px;
-							font-weight:700;
-							font-size:1.2rem;
-							margin: -20px -18px 15px -18px;
-							border-radius:10px 10px 0 0;
-							">
-				Liste des admissions
-				<a href="Medecin_Menu.php" style="background:#D42424;color:white;font-weight:700;
-										padding:5px 14px;border-radius:6px;text-decoration:none;font-size:0.9rem;">
-										<i class="fa-solid fa-backward"></i> Retour
-									</a>
-									
-				</div>
-                    
-
-             <div class="form-group">
-				<table id="myTable" class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th><div class="custom-label-box">ID</div></th>
-                <th><div class="custom-label-box">Nom</div></th>
-                <th><div class="custom-label-box">Prénom</div></th>
-				<th><div class="custom-label-box">Nom à la naissance</div></th>
-                <th><div class="custom-label-box">Date de naissance</div></th>
-				<th><div class="custom-label-box">Service</div></th>
-				<th><div class="custom-label-box">Chambre</div></th>
-				<th><div class="custom-label-box">Date entree</div></th>
-				<th><div class="custom-label-box">Medecin traitant</div></th>
-				<th><div class="custom-label-box">Status</div></th>
-				<th><div class="custom-label-box">Date de sortie</div></th>
-				
-                <th class="text-center"><div class="custom-label-box">Action</div></th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-        <?php
-        $res = mysqli_query($link, "SELECT * FROM admission");
-
-        while ($row = mysqli_fetch_assoc($res)) {
-        ?>
-
-        <tr>
-            <td><?php echo $row['id_admis']; ?></td>
-			
-			<?php
-					$id_p=$row['id_p'];
-					$res1 = mysqli_query($link, "SELECT * FROM patient WHERE `id_patient` = '$id_p'");
-
-					while ($row1 = mysqli_fetch_assoc($res1)) {
-			?>
-            <td><?php echo $row1['nom_p']; ?></td>
-            <td><?php echo $row1['prenom_p']; ?></td>
-			<td><?php echo $row1['nom_p_nais']; ?></td>
-			<td><?php echo $row1['date_nais_p']; ?></td>
-			<?php } ?>
-			
-			<td><?php echo $row['service']; ?></td>
-			
-			<?php
-					$id_lit=$row['id_lit'];
-					$res2 = mysqli_query($link, "SELECT * FROM lit WHERE `id` = '$id_lit'");
-
-					while ($row2 = mysqli_fetch_assoc($res2)) {
-			?>			
-			
-			<td><?php echo $row2['chambre_id'].' '. $row2['numero_lit']; ?></td>
-			<?php } ?>
-			
-			<td><?php echo $row['date_entre']; ?></td>
-			
-			<?php
-					$id_med=$row['id_med'];
-					$res3 = mysqli_query($link, "SELECT * FROM medecin WHERE `id_med` = '$id_med'");
-
-					while ($row3 = mysqli_fetch_assoc($res3)) {
-			?>			
-			
-			<td><?php echo $row3['nom_med'].' '. $row3['prenom_med']; ?></td>
-			<?php } ?>
-			
-			<td>
-			<?php 
-			if ($row['admis']=="Entree")
-			{
-			echo "<span class=\"badge badge-success\"> ".$row['admis']." </span>"; 
-			}
-			else {
-			echo "<span class=\"badge badge-danger\">". $row['admis']." </span>"; 
-			}
-			?>
-			</td>
-			<td><?php echo $row['date_sorti']; ?></td>
-			
-			
-			
-			
-			<td>
-				<div class="text-center" class="dropdown">
-					<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-						<i class="dw dw-more"></i>
-					</a>
-				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list" style="background-color: #C7EFF2;">
-				
-					<?php 
-						if ($row['admis']=="Entree")
-						{
-							echo "<a class=\"dropdown-item\" href=\"Nee_Ajout.php?id=". $row['id_p']."\"><i class=\"fas fa-baby\"></i>Nouveau né(e)</a>";
-							echo "<a class=\"dropdown-item\" href=\"patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-book\"></i>Historique</a>";	
-							echo "<a class=\"dropdown-item\" href=\"patient_rapport_ajout.php?id=". $row['id_p']."\"><i class=\"fa fa-pencil-square-o\"></i>Rapport</a>";
-														
-							echo "<a class=\"dropdown-item\" href=\"patient_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-briefcase\"></i>Grossesse & Travail</a>";
-														 
-							echo "<a class=\"dropdown-item\" href=\"PDF_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Grossesse & Travail</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_Admission.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Admission</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>Historique</a>";							
-							echo "<a class=\"dropdown-item\" href=\"patient_analyse_ajout.php?id=". $row['id_p']."\"><i class=\"fa fa-flask\"></i>Analyses</a>"; 
-							
-						} else
-						{
-							
-							echo "<a class=\"dropdown-item\" href=\"patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-book\"></i>Historique</a>";
-							echo "<a class=\"dropdown-item\" href=\"PDF_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Grossesse & Travail</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_Admission.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Admission</a>";  
-							echo "<a class=\"dropdown-item\" href=\"PDF_patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Historique</a>";
-							echo "<a class=\"dropdown-item\" href=\"PDF_Sorti.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Sortie</a>"; 
-							
-						}
-					?>
-					
-				</div>
-				</div>
-			</td>
-			
-        </tr>
-
-        <?php } ?>
+    <!-- LEFT CARD -->
+    <div class="col-lg-6 col-md-12">
+     <div style="
+    border:1px solid #ccc; 
+    border-radius:10px; 
+    padding:20px; 
+    margin-bottom:25px;
+    background:#f9f9f9;
+    box-shadow:0 6px 18px rgba(0,0,0,0.1);
    
+">
+<div style="
+    background:#0f4c81;
+    color:white;
+    padding:12px 15px;
+    font-weight:700;
+    font-size:1.2rem;
+    margin: -20px -20px 20px -20px;
+    border-radius:10px 10px 0 0;
+">Informations Générale</div>
+         
+<div class="row">
+	<?php
+	$id = $_GET["id"];
+	$result = mysqli_query($link, "SELECT * FROM patient WHERE id_patient='$id'");
 
-    </div>
-  </div>
-</div>
-        </tbody>
-    </table>
-									
-              </div>
-			  
-			  
-                
-                                                                            
-                
-				
-
-
-
-            </div>
-        </div>
-    </div>
-
-</div>    
-				
-								
- 
-    
+	while ($row = mysqli_fetch_array($result)) 
+	{
 	
+									
+	?>
+	<div class="col-md-6 col-sm-12 mb-3">
+   <div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">ID Mère</div>
+        <input type="text" style="color: red;" id="id_patient" name="id_patient" class="form-control" value="<?php echo $row['id_patient'];?>" placeholder="" readonly>
+   </div>
+    <div class="col-md-6 col-sm-12 mb-3">
+   <div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Nom</div>
+        <input type="text" style="color: red;" id="nom" name="nom" class="form-control" value="<?php echo $row['nom_p'];?>" placeholder="" readonly >
+    </div>
+	<div class="col-md-6 col-sm-12 mb-3">
+   <div style="    background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;" >Prénom</div>
+        <input type="text" style="color: red;" id="prenom" name="prenom" class="form-control" value="<?php echo $row['prenom_p'];?>" placeholder="" readonly>
+    </div>
+	<div class="col-md-6 col-sm-12 mb-3">
+   <div style="    background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;" >Nom à la naissance</div>
+        <input type="text" style="color: red;" id="nom_nais" name="nom_nais" class="form-control" value="<?php echo $row['nom_p_nais'];?>" placeholder="" readonly>
+    </div>
+	<div class="col-md-6 col-sm-12 mb-3">
+   <div style="    background:#e9ecef; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;" >Prénom conjoint</div>
+        <input type="text" style="color: red;" id="prenom_c" name="prenom_c" class="form-control" value="<?php echo $row['prenom_c'];?>" placeholder="" readonly>
+    </div>
+
+		<div class="col-md-6 col-sm-12 mb-3">
+        <div style="
+            background:#e9ecef;
+            color:black;
+            padding:8px 12px;
+            font-weight:600;
+            margin-bottom:6px;
+            border-radius:6px;">
+            Date de naissance
+        </div>
+
+        <input type="date" id="date_saisie" name="date_saisie" class="form-control" value="<?php echo $row['date_nais_p'];?>" readonly>
+    </div>
+	<?php
+	}
+	?>
+	<div class="col-md-6">
+                    <div class="form-group">
+					<div style="background:#8AFF8A; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">                            
+					service 
+                    </div>
+                      <select class="custom-select2 form-control" id ="service" name="service" style="width: 100%; height: 38px;" required>
+                                <option value="" selected disabled hidden>Choisir une chambre</option>
+                                <?php
+									
+									$result = mysqli_query($link, "SELECT * FROM service_hopital;");
+
+									while ($row = mysqli_fetch_array($result)) 
+									{
+									
+										#echo'<option value="'.$row['wilaya_name_ascii'].'">'.$row['wilaya_name_ascii'].'</option>';
+										#echo '<option value="chambre ' . $row['chambre_id'] . ' '. $row['numero_lit'] .'">' .'chambre '. $row['chambre_id'] .' '. $row['numero_lit'] . '</option>';
+										echo '<option value="' . $row['nom_serv'] .'">' . $row['nom_serv'] .'</option>';
+									}
+									?>
+
+                       </select>
+                    </div>
+    </div>
+	<div class="col-md-6">
+                    <div class="form-group">
+					<div style="background:#8AFF8A; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">                            
+					Numéro de lit 
+                    </div>
+                      <select class="custom-select2 form-control" id ="id_lit" name="id_lit" style="width: 100%; height: 38px;" required>
+                                <option value="" selected disabled hidden>Choisir une chambre</option>
+                                <?php
+									
+									$result = mysqli_query($link, "SELECT * FROM lit WHERE statut = 'Disponible';");
+
+									while ($row = mysqli_fetch_array($result)) 
+									{
+									
+										#echo'<option value="'.$row['wilaya_name_ascii'].'">'.$row['wilaya_name_ascii'].'</option>';
+										#echo '<option value="chambre ' . $row['chambre_id'] . ' '. $row['numero_lit'] .'">' .'chambre '. $row['chambre_id'] .' '. $row['numero_lit'] . '</option>';
+										echo '<option value="' . $row['id'] .'">' .'chambre '. $row['chambre_id'] .' '. $row['numero_lit'] . '</option>';
+									}
+									?>
+
+                       </select>
+                    </div>
+    </div>
+	<div class="col-md-6">
+                    <div class="form-group">
+					<div style="background:#8AFF8A; color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">                            
+					Medecin traitant 
+                    </div>
+                      <select class="custom-select2 form-control" id ="id_med" name="id_med" style="width: 100%; height: 38px;" required>
+                                
+                                <?php
+									
+									$result = mysqli_query($link, "SELECT * FROM patient WHERE id_patient='$id'");
+
+									while ($row = mysqli_fetch_array($result)) 
+									{
+									
+										#echo'<option value="'.$row['wilaya_name_ascii'].'">'.$row['wilaya_name_ascii'].'</option>';
+										#echo '<option value="chambre ' . $row['chambre_id'] . ' '. $row['numero_lit'] .'">' .'chambre '. $row['chambre_id'] .' '. $row['numero_lit'] . '</option>';
+										echo '<option value="' . $row['id_med_p'] .'">' .''. $row['med_p'] . '</option>';
+									}
+									?>
+
+                       </select>
+                    </div>
+    </div>
+   
+  
+	
+	
+   
+   
+   
+</div>
+	
+            
+
+
+	</div> <!-- CLOSE LEFT CARD -->
+</div> <!-- CLOSE LEFT COLUMN -->
+
+
+
+
+
+       
+
+
+	    <!-- RIGHT SIDE -->
+    
+ <div style="display:flex; justify-content:flex-end; width:100%; gap:10px; margin-top:15px;">
+<button type="button" class="btn btn-danger" onclick="window.location.href='Admission_Table_Agent.php';">Retour</button>
+	<input
+        type= "submit"
+		id="submit"
+        name = "submit"
+		class="btn btn-primary"
+        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 18px rgba(59,130,246,0.4)'"
+        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(59,130,246,0.3)'"
+		value ="Enregistrer"
+    >
+    
+
+</div>
 
 <script>
 
@@ -655,6 +582,8 @@ function saveForm() {
 
 </script>
 </div>
+
+    </div>
 				
 </div>
 </div>
@@ -671,32 +600,5 @@ function saveForm() {
 	<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 	<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 	<script src="vendors/scripts/dashboard.js"></script>
-	
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-	<script>
-	$(document).ready(function() {
-    $('#myTable').DataTable({
-        language: {
-            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json"
-        }
-		});
-		});
-	</script>
-	<script>
-            function goToPage(selectedValue, membre_id) {
-              var queryString = "id_cupboard=" + selectedValue + "&id_membre=" + membre_id; // Construct the query string
-              var url = "update_cupboard.php?" + queryString; // Construct the URL
-              window.location.href = url; // Navigate to the URL
-            }
-            function navigate(link) {
-              window.location.href = link; // Navigate to the URL
-            }
-			function navigate_print(link) {
-              //window.location.href = link; // Navigate to the URL
-			  window.open(link, '_blank');
-            }
-			
-     </script>
 </body>
 </html>

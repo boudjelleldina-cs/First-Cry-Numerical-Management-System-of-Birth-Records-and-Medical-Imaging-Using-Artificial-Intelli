@@ -2,15 +2,26 @@
 <?php
 include 'connection.php';
 session_start();
+
 if (!isset($_SESSION['log_u'])) {
-    header('location:loginpage.php');
+    header('location:login.php');
     die;
 }
 
 include 'connection.php';
 
 if (isset($_POST["submit"])) {
-	    $nom              = $_POST["nom"];
+	    
+		
+		$res = mysqli_query($link, "SELECT * FROM agent WHERE nom='$nom' AND prenom='$prenom' AND date_naissance='$date_naissance' LIMIT 1");
+		$tot = mysqli_fetch_assoc($res);
+		if ($tot >=1)
+		{
+			$message_erreur = "cette personne existe déjà !";
+        }
+		else
+		{
+			$nom              = $_POST["nom"];
         $prenom           = $_POST["prenom"];
 	    $sexe             = $_POST["sexe"];
 	    $date_naissance   = $_POST["date_naissance"];
@@ -22,14 +33,15 @@ if (isset($_POST["submit"])) {
 		$email            = $_POST["email"];
 		$pass             = $_POST["pass"];
 
-	if (isset($_FILES['file'])) {
-		$image_base64 = addslashes(file_get_contents($_FILES['file']['tmp_name']));
-		$insert = "INSERT INTO `agent`(`nom`, `prenom`, `sexe`, `date_naissance`, `fonction`, `service`, `date_recrutement`, `adresse`, `telephone`, `email`, `photo`, `password`) VALUES 
-		('$nom','$prenom','$sexe','$date_naissance','$fonction','$service','$date_recrutement','$adresse','$telephone','$email', '{$image_base64}', '$pass')";
+			if (isset($_FILES['file'])) {
+			$image_base64 = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+			$insert = "INSERT INTO `agent`(`nom`, `prenom`, `sexe`, `date_naissance`, `fonction`, `service`, `date_recrutement`, `adresse`, `telephone`, `email`, `photo`, `password`) VALUES 
+			('$nom','$prenom','$sexe','$date_naissance','$fonction','$service','$date_recrutement','$adresse','$telephone','$email', '{$image_base64}', '$pass')";
 
-		$qry = mysqli_query($link, $insert) or die(mysqli_error($link));
-		echo '<script>alert("Enregistrement réussi !");</script>';
-		header('location:Agent_Table.php');
+			$qry = mysqli_query($link, $insert) or die(mysqli_error($link));
+			echo '<script>alert("Enregistrement réussi !");</script>';
+			header('location:Agent_Table.php');
+		}
 	}
 }
 ?>
@@ -235,6 +247,12 @@ if (isset($_POST["submit"])) {
 							}
 						}
 						?>
+						
+						<?php if (isset($message_erreur)): ?>
+							<div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; padding: 12px; margin-bottom: 20px; border-radius: 6px; font-weight: bold;">
+								<i class="fa fa-exclamation-triangle"></i> <?php echo $message_erreur; ?>
+							</div>
+						<?php endif; ?>
 
 						<div class="row">
 
@@ -251,10 +269,10 @@ if (isset($_POST["submit"])) {
 
 									<div class="form-group">
 										<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Nom</div>
-										<input type="text" id="nom" name="nom" class="form-control" placeholder="Entrer le Nom de l'agent">
+										<input type="text" id="nom" name="nom" class="form-control" placeholder="Entrer le Nom de l'agent" required>
 
 										<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Prénom</div>
-										<input type="text" id="prenom" name="prenom" class="form-control" placeholder="Entrer le Prénom de l'agent">
+										<input type="text" id="prenom" name="prenom" class="form-control" placeholder="Entrer le Prénom de l'agent" required>
 									</div>
 
 									<div class="form-group">
@@ -273,13 +291,13 @@ if (isset($_POST["submit"])) {
 										<div class="col-md-6" style="padding-right:5px;">
 											<div class="form-group">
 												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Date de naissance</div>
-												<input type="date" id="date_naissance" name="date_naissance" class="form-control">
+												<input type="date" id="date_naissance" name="date_naissance" class="form-control" required>
 											</div>
 										</div>
 										<div class="col-md-6" style="padding-left:5px;">
 											<div class="form-group">
 												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Date de recrutement</div>
-												<input type="date" id="date_recrutement" name="date_recrutement" class="form-control">
+												<input type="date" id="date_recrutement" name="date_recrutement" class="form-control" required>
 											</div>
 										</div>
 									</div>
@@ -299,7 +317,7 @@ if (isset($_POST["submit"])) {
 
 									<div class="form-group">
 										<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Fonction</div>										
-										<select class="custom-select2 form-control" id ="fonction" name="fonction" style="width: 100%; height: 38px;">
+										<select class="custom-select2 form-control" id ="fonction" name="fonction" style="width: 100%; height: 38px;" required>
 										<option value="" selected disabled hidden>Choisir une fonction</option>
 										<?php
 									
@@ -318,7 +336,7 @@ if (isset($_POST["submit"])) {
 										<div class="col-md-6">
 											<div class="form-group">
 												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Service affecté</div>
-												<select class="custom-select2 form-control" id="service" name="service" style="width:100%;height:38px;">
+												<select class="custom-select2 form-control" id="service" name="service" style="width:100%;height:38px;" required>
 													<option value="" selected disabled hidden>Choisir un service</option>
 													<?php
 													$result = mysqli_query($link, "SELECT DISTINCT nom_serv FROM service_hopital");
@@ -333,7 +351,7 @@ if (isset($_POST["submit"])) {
 											<div class="form-group">
 												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Photo d'identité</div>
 												<div class="custom-file">
-													<input type="file" class="custom-file-input" id="file" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+													<input type="file" class="custom-file-input" id="file" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" required>
 													<label class="custom-file-label">Photo d'identité</label>
 												</div>
 											</div>
@@ -353,13 +371,13 @@ if (isset($_POST["submit"])) {
 										<div class="col-md-6" style="padding-right:5px;">
 											<div class="form-group">
 												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Adresse</div>
-												<input type="text" id="adresse" name="adresse" class="form-control" placeholder="Ex: 12 Rue des Fleurs, Alger">
+												<input type="text" id="adresse" name="adresse" class="form-control" placeholder="Ex: 12 Rue des Fleurs, Alger" required>
 											</div>
 										</div>
 										<div class="col-md-6" style="padding-left:5px;">
 											<div class="form-group">
-												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Email</div>
-												<input type="text" id="email" name="email" class="form-control" placeholder="Entrez l'email">
+												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;" >Email</div>
+												<input type="text" id="email" name="email" class="form-control" placeholder="Entrez l'email" required>
 											</div>
 										</div>
 									</div>
@@ -367,13 +385,13 @@ if (isset($_POST["submit"])) {
 										<div class="col-md-6" style="padding-right:5px;">
 											<div class="form-group">
 												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">N° de téléphone</div>
-												<input type="text" id="telephone" name="telephone" class="form-control" placeholder="Entrez le N° de téléphone">
+												<input type="text" id="telephone" name="telephone" class="form-control" placeholder="Entrez le N° de téléphone" required>
 											</div>
 										</div>
 										<div class="col-md-6" style="padding-left:5px;">
 											<div class="form-group">
 												<div style="background:#e9ecef;color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px;">Mot de passe</div>
-												<input type="password" id="pass" name="pass" class="form-control" placeholder="Entrez mot de passe">
+												<input type="password" id="pass" name="pass" class="form-control" placeholder="Entrez mot de passe" required>
 											</div>
 										</div>
 									</div>																												

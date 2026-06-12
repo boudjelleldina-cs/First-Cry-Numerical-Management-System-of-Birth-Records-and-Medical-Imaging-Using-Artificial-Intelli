@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
 			
 			
 			
-			case 'Agent': $select = "SELECT * FROM agent WHERE id_agent='$username' AND password='$pass'";
+			case 'Agent': $select = "SELECT * FROM agent WHERE id_agent='$username' AND password='$pass' LIMIT 1";
 							$select_admin = mysqli_query($link, $select);
 
 							if (mysqli_num_rows($select_admin) > 0) 

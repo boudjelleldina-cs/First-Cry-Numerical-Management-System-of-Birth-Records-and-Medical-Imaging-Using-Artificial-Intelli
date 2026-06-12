@@ -766,40 +766,7 @@ if (isset($_GET['carte']) && $_GET['carte'] == '1' && isset($_GET['id'])) {
             </div>
         
 		`;
-					/*modalBody.innerHTML += `
-                <h5 class="text-center h5 mb-0">${response.nom}</h5>
-				<p class="text-center text-muted font-14">${response.prenom}</p>
-				<div class="profile-info">
-					<h5 class="mb-20 h5 text-blue">Contact Information</h5>
-						<ul>
-							<li>
-							<span>Date de naissance:</span>
-							${response.date_naissance}
-							</li>
-							<li>
-							<span>Email Address:</span>
-							${response.email}
-							</li>
-							<li>
-							<span>Telephone:</span>
-							${response.telephone}
-							</li>
-							<li>
-							<span>Fonction:</span>
-							${response.fonction}
-							</li>
-							<li>
-							<span>Service:</span>
-							${response.service}
-							</li>
-							<li>
-							<span>Date de recrutement:</span>
-							${response.date_recrutement}
-							</li>
-						</ul>
-				</div>
-				
-            `;*/
+					
             
             // Display the modal
             document.getElementById("editModal").style.display = "block";

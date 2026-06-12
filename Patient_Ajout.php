@@ -11,9 +11,20 @@ include 'connection.php';
 if (isset($_POST["submit"])) {
 	    $nom_p = $_POST["nom_p"];
         $prenom_p = $_POST["prenom_p"];
-	    $nom_nais = $_POST["nom_nais"];
-	    $conjoint = $_POST["conjoint"];
+	    $nom_nais = $_POST["nom_nais"];	
 		$datedenaissance = $_POST["datedenaissance"];
+		$res = mysqli_query($link, "SELECT * FROM patient WHERE nom_p='$nom_p' AND prenom_p='$prenom_p' AND nom_p_nais='$nom_nais' AND date_nais_p='$datedenaissance' LIMIT 1");
+		$tot = mysqli_fetch_assoc($res);
+		if ($tot >=1)
+		{
+			$message_erreur = "cette personne existe déjà !";
+        }
+		else
+		{
+			
+			
+	    $conjoint = $_POST["conjoint"];
+		
 		$wilaya = $_POST["wilaya"];
 		$nom_p_ar = $_POST["nom_p_ar"];
         $prenom_p_ar = $_POST["prenom_p_ar"];
@@ -36,10 +47,11 @@ if (isset($_POST["submit"])) {
 		
 		$qry = mysqli_query($link, $insert) or die(mysqli_error($link));
 		
-		echo '<script>alert("Enregistrement");</script>';
+		echo '<script>alert("Enregistrement réussi");</script>';
         
-		header('location:Patient_Table.php');	
-	}	
+		header('location:Patient_Table_Agent.php');	
+	}
+		}	
 }
 #$link->close();
 
@@ -79,18 +91,7 @@ if (isset($_POST["submit"])) {
 	</script>
 </head>
 <body>
-	<div class="pre-loader">
-		<div class="pre-loader-box">
-			<div class="loader-logo"><img src="vendors/images/logo.png" alt="" width="300" height="300"></div>
-			<div class='loader-progress' id="progress_div">
-				<div class='bar' id='bar1'></div>
-			</div>
-			<div class='percent' id='percent1'>0%</div>
-			<div class="loading-text">
-				Loading...
-			</div>
-		</div>
-	</div>
+	
 
 	<div class="header">
 		<div class="header-left">
@@ -758,6 +759,12 @@ if (isset($_POST["submit"])) {
                                             };
                                         };
                                         ?>
+										
+					<?php if (isset($message_erreur)): ?>
+							<div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; padding: 12px; margin-bottom: 20px; border-radius: 6px; font-weight: bold;">
+								<i class="fa fa-exclamation-triangle"></i> <?php echo $message_erreur; ?>
+							</div>
+						<?php endif; ?>
 <div class="row">
 
     <!-- LEFT CARD (Identification) -->

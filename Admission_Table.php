@@ -438,7 +438,7 @@ include 'connection.php';
 							border-radius:10px 10px 0 0;
 							">
 				Liste des admissions
-				<a href="Medecin_Menu.php" style="background:#D42424;color:white;font-weight:700;
+				<a href="Patient_Menu.php" style="background:#D42424;color:white;font-weight:700;
 										padding:5px 14px;border-radius:6px;text-decoration:none;font-size:0.9rem;">
 										<i class="fa-solid fa-backward"></i> Retour
 									</a>
@@ -513,17 +513,7 @@ include 'connection.php';
 			<td><?php echo $row3['nom_med'].' '. $row3['prenom_med']; ?></td>
 			<?php } ?>
 			
-			<td>
-			<?php 
-			if ($row['admis']=="Entree")
-			{
-			echo "<span class=\"badge badge-success\"> ".$row['admis']." </span>"; 
-			}
-			else {
-			echo "<span class=\"badge badge-danger\">". $row['admis']." </span>"; 
-			}
-			?>
-			</td>
+			<td><?php echo $row['admis']; ?></td>
 			<td><?php echo $row['date_sorti']; ?></td>
 			
 			
@@ -535,32 +525,31 @@ include 'connection.php';
 						<i class="dw dw-more"></i>
 					</a>
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list" style="background-color: #C7EFF2;">
-				
 					<?php 
 						if ($row['admis']=="Entree")
 						{
 							echo "<a class=\"dropdown-item\" href=\"Nee_Ajout.php?id=". $row['id_p']."\"><i class=\"fas fa-baby\"></i>Nouveau né(e)</a>";
 							echo "<a class=\"dropdown-item\" href=\"patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-book\"></i>Historique</a>";	
 							echo "<a class=\"dropdown-item\" href=\"patient_rapport_ajout.php?id=". $row['id_p']."\"><i class=\"fa fa-pencil-square-o\"></i>Rapport</a>";
-														
+							echo "<a class=\"dropdown-item\" href=\"patient_infermier_ajout.php?id=". $row['id_p']."\"><i class=\"fa fa-flask\"></i>+ Infermier</a>";							
 							echo "<a class=\"dropdown-item\" href=\"patient_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-briefcase\"></i>Grossesse & Travail</a>";
-														 
+							echo "<a class=\"dropdown-item\" href=\"patient_suite.php?id=". $row['id_p']."\"><i class=\"fas fa-baby\"></i>Suite de couche</a>"; 							 
 							echo "<a class=\"dropdown-item\" href=\"PDF_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Grossesse & Travail</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_Admission.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Admission</a>"; 
-							echo "<a class=\"dropdown-item\" href=\"PDF_patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>Historique</a>";							
+							echo "<a class=\"dropdown-item\" href=\"PDF_Admission.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Admission</a>";  
 							echo "<a class=\"dropdown-item\" href=\"patient_analyse_ajout.php?id=". $row['id_p']."\"><i class=\"fa fa-flask\"></i>Analyses</a>"; 
 							
 						} else
 						{
 							
-							echo "<a class=\"dropdown-item\" href=\"patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-book\"></i>Historique</a>";
 							echo "<a class=\"dropdown-item\" href=\"PDF_travail.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Grossesse & Travail</a>"; 
 							echo "<a class=\"dropdown-item\" href=\"PDF_Admission.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Admission</a>";  
-							echo "<a class=\"dropdown-item\" href=\"PDF_patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-print\"></i>PDF Historique</a>";
+							echo "<a class=\"dropdown-item\" href=\"patient_rapport_details.php?id=". $row['id_p']."\"><i class=\"fa fa-book\"></i>Historique</a>";
 							echo "<a class=\"dropdown-item\" href=\"PDF_Sorti.php?id=". $row['id_admis']."\"><i class=\"fa fa-print\"></i>PDF Sortie</a>"; 
 							
 						}
-					?>
+					?>					
+					
+					<a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Supprimer</a>
 					
 				</div>
 				</div>
