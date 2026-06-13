@@ -613,7 +613,7 @@ include 'connection.php';
 										
 									</div>
 									<div class="view-contact">
-										<a href="#">Détails</a>
+										<a href="lit_table.php">Détails</a>
 									</div>
 								</div>
 							</li>

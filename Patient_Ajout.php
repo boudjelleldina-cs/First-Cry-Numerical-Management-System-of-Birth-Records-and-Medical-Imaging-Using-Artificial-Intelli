@@ -47,9 +47,11 @@ if (isset($_POST["submit"])) {
 		
 		$qry = mysqli_query($link, $insert) or die(mysqli_error($link));
 		
-		echo '<script>alert("Enregistrement réussi");</script>';
-        
-		header('location:Patient_Table_Agent.php');	
+		if($qry)
+{
+    header("Location: Patient_Table_Agent.php");
+    exit();
+}
 	}
 		}	
 }
@@ -1113,7 +1115,7 @@ if (isset($_POST["submit"])) {
         Réinitialiser
     </button>
 	-->
-	<button type="button" class="btn btn-danger" onclick="window.location.href='Patient_Table.php';">Retour</button>
+	<button type="button" class="btn btn-danger" onclick="window.location.href='Patient_Table_agent.php';">Retour</button>
 	<input
         type= "submit"
 		id="submit"

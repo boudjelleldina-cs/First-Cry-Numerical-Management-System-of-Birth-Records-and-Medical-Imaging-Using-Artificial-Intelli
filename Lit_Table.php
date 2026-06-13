@@ -433,7 +433,7 @@ width: 100% !important;
 									margin:-20px -18px 15px -18px;border-radius:10px 10px 0 0;
 									display:flex;justify-content:space-between;">
 									Liste des Lits
-									<a href="lit_table.php" style="background:#D42424;color:white;font-weight:700;
+									<a href="Admin_acceuil.php" style="background:#D42424;color:white;font-weight:700;
 										padding:5px 14px;border-radius:6px;text-decoration:none;font-size:0.9rem;">
 										<i class="fa-solid fa-backward"></i> Retour
 									</a>

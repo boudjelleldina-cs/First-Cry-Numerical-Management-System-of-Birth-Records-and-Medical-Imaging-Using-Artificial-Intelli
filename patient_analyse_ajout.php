@@ -595,7 +595,7 @@ $analyses = [
     <button 
         type="button" 
         class="btn btn-danger"
-        onclick="window.location.href='Patient_Table.php';"
+        onclick="window.location.href='Patient_Table_medecin.php';"
     >
         Retour
     </button>

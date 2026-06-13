@@ -99,7 +99,7 @@ if(isset($_POST['submit']))
 
     echo "<script>
             alert('Enregistrement réussi');
-            window.location='Patient_Table.php';
+            window.location='admission_Table_medecin.php';
           </script>";
 }
 ?>
@@ -770,7 +770,7 @@ if(isset($_POST['submit']))
 
 
 <div style="display:flex; justify-content:flex-end; width:100%; gap:10px; margin-top:15px;">
-	<button type="button" class="btn btn-danger" onclick="window.location.href='Infirmier_Table.php';">Retour</button>
+	<button type="button" class="btn btn-danger" onclick="window.location.href='admission_Table_medecin.php';">Retour</button>
 	<input
         type="submit"
 		id="submit"

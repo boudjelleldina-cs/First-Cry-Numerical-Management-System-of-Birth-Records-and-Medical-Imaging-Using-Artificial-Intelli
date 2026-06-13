@@ -379,7 +379,7 @@ include 'connection.php';
                         </div>
                         <h5 class="mb-1 text-danger">Non Affectée</h5>
                         <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM patient WHERE med_p IS NULL");
+										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM patient WHERE med_p=''");
 										$tot = mysqli_fetch_assoc($res);
 										echo $tot['total'];										
 										?>				
@@ -469,7 +469,7 @@ include 'connection.php';
         <tbody>
 
         <?php
-        $res = mysqli_query($link, "SELECT * FROM patient WHERE (med_p IS NULL OR id_med_p ='$id_med_p' )");
+        $res = mysqli_query($link, "SELECT * FROM patient ");
 
         while ($row = mysqli_fetch_assoc($res)) {
         ?>

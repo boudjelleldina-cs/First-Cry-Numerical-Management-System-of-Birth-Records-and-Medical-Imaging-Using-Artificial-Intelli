@@ -335,9 +335,11 @@ include 'connection.php';
                             </div>
                            
                         </div>
+						
+						
                         <h5 class="mb-1 text-primary">Total</h5>
                         <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent");
+										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM admission");
 										$tot = mysqli_fetch_assoc($res);
 										echo $tot['total'];										
 										?>				
@@ -356,15 +358,16 @@ include 'connection.php';
                         </div>
                         <h5 class="mb-1 text-success">Admis</h5>
                         <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent WHERE statut='Actif'");
+										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM admission WHERE admis='Entree'");
 										$tot = mysqli_fetch_assoc($res);
 										echo $tot['total'];										
 										?>				
 						</h3>
-                        
+						     
                     </div>
                 </div>
-				
+	
+            
                 <!-- Orders Card -->
                 <div class="col-md-3">
                     <div class="stat-card3 p-2">
@@ -376,12 +379,11 @@ include 'connection.php';
                         </div>
                         <h5 class="mb-1 text-danger">Sortie</h5>
                         <h3 class="mb-3"><?php
-										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM agent WHERE statut='Inactif'");
+										$res = mysqli_query($link, "SELECT COUNT(*) AS total FROM admission WHERE admis='Sortie'");
 										$tot = mysqli_fetch_assoc($res);
 										echo $tot['total'];										
 										?>				
 						</h3>
-                        
                     </div>
                 </div>
 				

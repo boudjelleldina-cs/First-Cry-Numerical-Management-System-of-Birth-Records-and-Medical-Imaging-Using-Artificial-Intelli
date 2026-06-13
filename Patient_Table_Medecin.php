@@ -441,10 +441,7 @@ include 'connection.php';
 										padding:5px 14px;border-radius:6px;text-decoration:none;font-size:0.9rem;">
 										<i class="fa-solid fa-backward"></i> Retour
 									</a>
-									<a href="Patient_Ajout.php" style="background:white;color:#0f4c81;font-weight:700;
-										padding:5px 14px;border-radius:6px;text-decoration:none;font-size:0.9rem;">
-										<i class="fa fa-plus"></i> Patient
-									</a>
+									
 								</div>
                     
 
@@ -468,7 +465,8 @@ include 'connection.php';
         <tbody>
 
         <?php
-        $res = mysqli_query($link, "SELECT * FROM patient WHERE (med_p IS NULL OR id_med_p ='$id_med_p' )");
+	
+        $res = mysqli_query($link,"SELECT *FROM patient WHERE id_med_p='$id_med_p'  OR id_med_p IS NULL   OR med_p=''");
 
         while ($row = mysqli_fetch_assoc($res)) {
         ?>
@@ -513,7 +511,7 @@ include 'connection.php';
 							
 							echo "<a class=\"dropdown-item\" href=\"patient_analyse_ajout.php?id=". $row['id_patient']."\"><i class=\"fa fa-flask\"></i>Analyses</a>"; 
 							echo "<a class=\"dropdown-item\" href=\"patient_rapport_ajout.php?id=". $row['id_patient']."\"><i class=\"fa fa-pencil-square-o\"></i>Rapport</a>";
-							echo "<a class=\"dropdown-item\" href=\"patient_infermier_ajout.php?id=". $row['id_patient']."\"><i class=\"fa fa-flask\"></i>+ Infermier</a>";
+							
 						}
 					?>
 					<a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Supprimer</a>

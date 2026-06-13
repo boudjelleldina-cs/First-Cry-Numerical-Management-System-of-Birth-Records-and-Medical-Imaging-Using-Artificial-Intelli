@@ -67,7 +67,7 @@ if (isset($_POST["submit"])) {
 		
 		echo '<script>alert("Enregistrement");</script>';
         
-		header('location:Nee_Table.php');	
+		header('location:Nee_Table_medecin.php');	
 		
 }
 #$link->close();
@@ -988,7 +988,7 @@ color:black;padding:8px 12px;font-weight:600;margin-bottom:6px;border-radius:6px
 
 </div>
  <div style="display:flex; justify-content:flex-end; width:100%; gap:10px; margin-top:15px;">
-<button type="button" class="btn btn-danger" onclick="window.location.href='Nee_Table.php';">Retour</button>
+<button type="button" class="btn btn-danger" onclick="window.location.href='Nee_Table_medecin.php';">Retour</button>
 	<input
         type= "submit"
 		id="submit"
